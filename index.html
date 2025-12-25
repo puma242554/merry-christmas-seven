@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Gift For You 🎁💖</title>
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  height:100vh;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
+  background-size:400% 400%;
+  animation:bgMove 12s ease infinite;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* particles */
+.particle{
+  position:fixed;
+  width:6px;
+  height:6px;
+  background:rgba(255,255,255,.8);
+  border-radius:50%;
+  animation:float 8s linear infinite;
+}
+
+@keyframes float{
+  from{transform:translateY(110vh);opacity:0}
+  to{transform:translateY(-10vh);opacity:1}
+}
+
+/* card */
+.card{
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(18px);
+  border-radius:32px;
+  padding:34px;
+  width:90%;
+  max-width:400px;
+  text-align:center;
+  box-shadow:0 0 40px rgba(255,255,255,.35);
+  color:#fff;
+  z-index:2;
+}
+
+h1{
+  margin-top:0;
+  background:linear-gradient(90deg,#fff,#ffe0f0,#fff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+p{
+  font-size:17px;
+  line-height:1.7;
+}
+
+button{
+  margin-top:12px;
+  padding:14px 26px;
+  border-radius:999px;
+  border:none;
+  background:linear-gradient(135deg,#ff6a9f,#ff9a9e);
+  color:#fff;
+  font-size:15px;
+  cursor:pointer;
+  box-shadow:0 12px 30px rgba(255,100,160,.6);
+}
+button:hover{transform:scale(1.08)}
+
+.hidden{display:none}
+
+/* heart */
+.heart{
+  position:fixed;
+  font-size:32px;
+  animation:heartFloat 3s ease forwards;
+  pointer-events:none;
+}
+
+@keyframes heartFloat{
+  0%{transform:translateY(0) scale(1);opacity:1}
+  100%{transform:translateY(-160px) scale(1.6);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>💖 สำหรับพี่คนพิเศษคนเดียว 💖</h1>
+
+  <p id="message">หัวใจดวงนี้ฝากอะไรบางอย่างถึงพี่กันน้าา 💌</p>
+
+  <button onclick="nextStep()">เปิดหน่อยซี้ 💕</button>
+  <button onclick="toggleMusic()">🎵 เปิด / ปิด เพลง</button>
+
+  <p id="secret" class="hidden">
+    🔐 <b>ข้อความลับ</b><br><br>
+    ขอบคุณที่กดมาจนถึงตรงนี้นะ<br>
+    แปลว่าพี่เป็นคนพิเศษที่มีใจให้เราเเน่เลย ฮ็ฮปป 💖<br>
+    สุดท้ายจริงๆละ มุกเสี่ยวคิดไม่ทันพี่คิดถึงหนูตอนเล่มมุกเเล้วกันเพื่อจะได้เสียวอีก✨
+  </p>
+</div>
+
+<!-- เพลง (ใช้ไฟล์ฟรี bgm.mp3) -->
+<audio id="bgm" loop>
+  <source src="bgm.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const wishes=[
+  "คริสต์มาสนี้หนูไม่ได้ขออะไรเลย เพราะสิ่งที่อยากได้…กำลังอ่านอยู่นี่แหละ อ้ะล้อเล่น555😊",
+  "ขอให้ทุกวันที่เหลือของปีนี้ มีความสุขมากขึ้นเรื่อยๆและหวังว่าหนูจะได้เป็นหนึ่งในความสุขของพี่ด้วยนะ💕💖",
+  "ขอให้ของขวัญทุกชิ้นที่พี่ได้รับ สู้ความสุขที่หนูขอให้พี่ไม่ได้เลย เพราะสิ่งที่หนูอยากให้มากที่สุด คือรอยยิ้มของพี่😊✨",
+  "55555พอๆเลี่ยนมาเยอะละ ขอบคุณที่รับเเอดไอจี เเละ คุยด้วยกัน ฮ็อปป เขินอ่ะ เกิดมาไม่เคยทำอะไรเเบบนี้เลยย มีความสุขมากน้า สุดท้าย ลูเยิฟ เลิฟยูนะค้าา🎁✨🫶"
+];
+
+let index=0;
+const msg=document.getElementById("message");
+const secret=document.getElementById("secret");
+const music=document.getElementById("bgm");
+
+function nextStep(){
+  if(index<wishes.length){
+    msg.innerHTML=wishes[index];
+    index++;
+    createHeart();
+  }else{
+    msg.classList.add("hidden");
+    secret.classList.remove("hidden");
+    createHeart();
+    createHeart();
+  }
+}
+
+function toggleMusic(){
+  if(music.paused){
+    music.play();
+  }else{
+    music.pause();
+  }
+}
+
+function createHeart(){
+  const heart=document.createElement("div");
+  const faces=["💖","💗","💓","💞","💕","(｡♥‿♥｡)","♡＾▽＾♡"];
+  heart.className="heart";
+  heart.innerHTML=faces[Math.floor(Math.random()*faces.length)];
+  heart.style.left=Math.random()*80+10+"vw";
+  heart.style.bottom="40px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),3000);
+}
+
+/* particles */
+for(let i=0;i<40;i++){
+  const p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=(6+Math.random()*6)+"s";
+  document.body.appendChild(p);
+}
+</script>
+
+</body>
+</html>
